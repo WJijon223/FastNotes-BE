@@ -1,4 +1,4 @@
-# Get used to this line (you gonna be using it for 10 weeks)
+# Get used to these imports (you gonna be using it for 10 weeks)
 from fastapi import FastAPI
 from app.models import NoteCreate
 from app.models import Note
@@ -6,7 +6,6 @@ from app.fake_db import notes
 from fastapi import Query
 
 app = FastAPI()
-
 
 @app.get("/")
 def root():
