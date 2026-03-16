@@ -24,8 +24,10 @@ def create_note(note: NoteCreate):
     return new_note
 
 @app.get("/notes", response_model=list[Note])
-def get_notes(limit: int = Query(default= 10, le = 10)): # limit to retrieving first 10 notes
-    return notes[:limit]
+def get_notes(
+    limit: int = Query(default= 10, le = 10), 
+    offset: int = Query(default=0, ge=0)): # limit to retrieving first 10 notes
+    return notes[offset: offset + limit]
 
 @app.get("/notes/{id}")
 def get_note(id: int):
