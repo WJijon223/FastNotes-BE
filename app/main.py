@@ -3,6 +3,7 @@ from fastapi import FastAPI
 from app.models import NoteCreate
 from app.models import Note
 from app.fake_db import notes
+from fastapi import Query
 
 app = FastAPI()
 
@@ -23,7 +24,7 @@ def create_note(note: NoteCreate):
     return new_note
 
 @app.get("/notes", response_model=list[Note])
-def get_notes(limit: int = 10): # limit to retrieving first 10 notes
+def get_notes(limit: int = Query(default= 10, le = 10)): # limit to retrieving first 10 notes
     return notes[:limit]
 
 @app.get("/notes/{id}")
