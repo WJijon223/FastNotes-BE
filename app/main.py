@@ -26,4 +26,10 @@ def create_note(note: NoteCreate):
 def get_notes():
     return notes
 
-@app.get("notes/{id}"):
+@app.get("/notes/{id}")
+def get_note(id: int):
+    for note in notes:
+        if note['id'] == id:
+            return note
+    
+    return {"message": "note not found"}
