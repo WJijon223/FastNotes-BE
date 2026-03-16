@@ -41,3 +41,15 @@ def delete_note(id: int):
             return notes.pop(index)
     
     return {'message': 'note not found'}
+
+# using PUT right now but will be implement PATCH method later
+@app.put('/notes/{id}')
+def update_note(id: int, updated_note: NoteCreate):
+    for index, note in enumerate(notes):
+        if note['id'] == id:
+            notes[index]["title"] = updated_note.title
+            notes[index]["content"] = updated_note.content
+
+            return notes[index]
+    
+    return {"message": "note not found"}
