@@ -1,6 +1,7 @@
 # Get used to this line (you gonna be using it for 10 weeks)
 from fastapi import FastAPI
 from app.models import NoteCreate
+from app.models import Note
 from app.fake_db import notes
 
 app = FastAPI()
@@ -20,3 +21,9 @@ def create_note(note: NoteCreate):
     
     notes.append(new_note)
     return new_note
+
+@app.get("/notes", response_model=list[Note])
+def get_notes():
+    return notes
+
+@app.get("notes/{id}"):
