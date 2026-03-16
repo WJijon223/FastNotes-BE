@@ -4,6 +4,7 @@ from app.models import NoteCreate
 from app.models import Note
 from app.fake_db import notes
 from fastapi import Query
+from typing import Optional
 
 app = FastAPI()
 
@@ -16,7 +17,8 @@ def create_note(note: NoteCreate):
     new_note = {
         "id": len(notes) + 1,
         "title": note.title,
-        "content": note.content
+        "content": note.content,
+        "archived": note.archived
     }
     
     notes.append(new_note)
@@ -25,8 +27,14 @@ def create_note(note: NoteCreate):
 @app.get("/notes", response_model=list[Note])
 def get_notes(
     limit: int = Query(default= 10, le = 10), 
-    offset: int = Query(default=0, ge=0)): # limit to retrieving first 10 notes
-    return notes[offset: offset + limit]
+    offset: int = Query(default=0, ge=0),
+    archived: Optional[bool] = None ): # limit to retrieving first 10 notes
+
+    filtered_notes = notes
+    if archived is not None:
+        filtered_notes = [note for note in notes if note['archived'] == archived]
+    
+    return filtered_notes[offset: offset + limit]
 
 @app.get("/notes/{id}")
 def get_note(id: int):
