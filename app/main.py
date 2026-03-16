@@ -33,3 +33,11 @@ def get_note(id: int):
             return note
     
     return {"message": "note not found"}
+
+@app.delete("/notes/{id}")
+def delete_note(id: int):
+    for index, note in enumerate(notes):
+        if note['id'] == id:
+            return notes.pop(index)
+    
+    return {'message': 'note not found'}
